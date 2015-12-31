@@ -1,5 +1,6 @@
 package cn.uhei.sms;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,10 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
 
     public void openOptionsMenu() {
-
-        // TODO Auto-generated method stub
-
-        super.openOptionsMenu();
+       super.openOptionsMenu();
 
     }
     @Override
@@ -48,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         int group1 = 1;
-        int gourp2 = 2;
-        menu.add(group1, 1, 1, "item 11");
-        menu.add(group1, 2, 2, "item 12");
+//        int gourp2 = 2;
+        menu.add(group1, 1, 1, "设置");
+//        menu.add(group1, 2, 2, "item 12");
         return true;
     }
 
@@ -59,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1: // do something here
-                Log.i("MenuTest:", "ItemSelected:1");
+                Intent intent = new Intent(MainActivity.this,SetAty.class);
+                startActivity(intent);
+                System.out.println("被点击了");
                 break;
-            case 2: // do something here
-                Log.i("MenuTest:", "ItemSelected:2");
-                break;
+//            case 2: // do something here
+//                Log.i("MenuTest:", "ItemSelected:2");
+//                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
