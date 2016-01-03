@@ -12,13 +12,8 @@ public class SetAty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_aty);
     }
-    public void keyworld(View view){
-        Intent intent = new Intent(this,AddKeyworld.class);
-        startActivity(intent);
-    }
 
-    public void phone(View view){
-        Intent intent = new Intent(this,AddPhone.class);
-        startActivity(intent);
-    }
+   public void btnPhoneClick(View v){
+       startActivity(new Intent(SetAty.this,ListPhone.class));
+   }
 }

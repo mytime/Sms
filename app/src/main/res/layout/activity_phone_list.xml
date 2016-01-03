@@ -8,18 +8,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="cn.uhei.sms.AddPhone">
+    tools:context=".cn.uhei.sms.PhoneList">
     <ListView
+        android:id="@+id/lvPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
     </ListView>
     <Button
-        android:onClick="AddKeyworld"
+        android:onClick="btnAddPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="添加"
-        />
+       />
 
 </LinearLayout>
