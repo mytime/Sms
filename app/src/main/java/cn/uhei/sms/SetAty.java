@@ -13,7 +13,13 @@ public class SetAty extends AppCompatActivity {
         setContentView(R.layout.activity_set_aty);
     }
 
-   public void btnPhoneClick(View v){
-       startActivity(new Intent(SetAty.this,ListPhone.class));
-   }
+    public void btnAddKeyworld(View v) {
+        startActivity(new Intent(SetAty.this,ListKeyworld.class));
+    }
+
+    public void btnPhoneClick(View v) {
+        startActivity(new Intent(SetAty.this, ListPhone.class));
+    }
+
+
 }

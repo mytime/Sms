@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/1/3.
  */
-public class ContentAdapter extends BaseAdapter {
+public class KeyworldAdapter extends BaseAdapter {
     private Context context;
     private List<ContentBean> contents;
 
     //构造方法
-    public ContentAdapter(Context context, List<ContentBean> contents) {
+    public KeyworldAdapter(Context context, List<ContentBean> contents) {
         this.context = context;
         this.contents = contents;
     }
@@ -41,7 +41,7 @@ public class ContentAdapter extends BaseAdapter {
         }
         ContentBean mContent = getItem(position);
         //获取号码
-        holder.tvPhone.setText(mContent.getNumber());
+        holder.tvPhone.setText(mContent.getKeyworld());
         return convertView;
     }
 

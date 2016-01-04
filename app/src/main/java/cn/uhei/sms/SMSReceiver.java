@@ -3,6 +3,8 @@ package cn.uhei.sms;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
@@ -13,25 +15,43 @@ import android.telephony.SmsMessage;
 public class SMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        //获取intent传过来的内容
-        Bundle bundle = intent.getExtras();
-        //提取短信
-        Object[] pdus = (Object[]) bundle.get("pdus");
-        // 构建短信对象数组；
-        SmsMessage[] messages = new SmsMessage[pdus.length];
-        for (int i = 0; i < messages.length; i++) {
-            // 获取单条短信内容，以pdu格式存,并生成短信对象；
-            messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-        }
-        //获取发送方号码
-        String address = messages[0].getOriginatingAddress();
-        String fullMessage = "";
-        for (SmsMessage message : messages) {
-            //获取短信内容
-            fullMessage += message.getMessageBody();
-        }
-        System.out.println(">>>>>>>>>>>>>" + address + fullMessage);
+        Bundle extras = intent.getExtras();
+        if(extras == null)
+            return;
 
+        Object[] pdus = (Object[]) extras.get("pdus");
+
+        SmsDb db = new SmsDb(context);
+        SQLiteDatabase dbRead = db.getReadableDatabase();
+
+        for (int i = 0; i < pdus.length; i++) {
+
+
+
+            SmsMessage message = SmsMessage.createFromPdu((byte[]) pdus[i]);
+            //发送者手机号
+            String fromAddress = message.getOriginatingAddress();
+
+            //查询数据库
+            Cursor c = dbRead.query("phone", new String[]{"phone"}, "phone=?", new String[]{fromAddress}, null, null, null);
+
+            while (c.moveToNext()){
+                String phone  = c.getString(c.getColumnIndex("phone"));
+                if (fromAddress.equals(phone)){
+                    abortBroadcast();
+                }
+            }
+
+//            //短信内容
+            String fromMessage = message.getMessageBody();
+            //内容是否包含某某关键词
+//            fromMessage.contains()
+
+//            String fromDisplayName = fromAddress;
+
+//            System.out.format("短信发送者:%s,信息内容：%s\n", fromAddress, fromMessage);
+
+        }
 
     }
 }
