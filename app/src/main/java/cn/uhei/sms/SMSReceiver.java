@@ -8,6 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.text.format.DateFormat;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 短信接收
@@ -40,7 +44,7 @@ public class SMSReceiver extends BroadcastReceiver {
             //接收到的内容
             fromMessage = message.getMessageBody();
             //接收时间
-            fromDate = String.valueOf(message.getTimestampMillis());
+            fromDate = new Date(message.getTimestampMillis()).toLocaleString();
 
             /**
              * 号码拦截

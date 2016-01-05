@@ -139,6 +139,7 @@ public class ContentManager {
             String phone = c.getString(c.getColumnIndex("phone"));
             String content = c.getString(c.getColumnIndex("content"));
             String date = c.getString(c.getColumnIndex("date"));
+            String _id = c.getString(c.getColumnIndex("_id"));
 
             contentBean = new ContentBean();
             contentBean.setContent(content);

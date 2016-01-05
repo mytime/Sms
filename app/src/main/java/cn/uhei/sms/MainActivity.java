@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private List<ContentBean> contents = new ArrayList<ContentBean>();
     private AdapterContent adapter;
     private ListView lv;
+
+    //长按删除方法
     private AdapterView.OnItemLongClickListener listViewItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                          //获取phone
+//                            adapter.
                             ContentBean cb = adapter.getItem(position);
+
                             String i = cb.getNumber();
                             //执行删除
                             ContentManager.deleteContentPhone(MainActivity.this, i);
@@ -52,12 +56,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lv = (ListView) findViewById(R.id.list);
 
-        adapter = new AdapterContent(this,contents);
+        adapter = new AdapterContent(this, contents);
         lv.setAdapter(adapter);
 
         //长按删除
         lv.setOnItemLongClickListener(listViewItemLongClickListener);
-
 
         //显示数据
         setContentsData();
@@ -81,13 +84,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *物理键事件
+     * 物理键事件
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             super.openOptionsMenu();  // 启动菜单
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            new AlertDialog.Builder(this)
+                    .setTitle("退出")
+                    .setMessage("确定退出吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent exit = new Intent(Intent.ACTION_MAIN);
+                            exit.addCategory(Intent.CATEGORY_HOME);
+                            exit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(exit);
+                            System.exit(0);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
         }
         return true;
     }
@@ -102,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void openOptionsMenu() {
-       super.openOptionsMenu();
+        super.openOptionsMenu();
     }
 
     /**
@@ -123,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1:
-                Intent intent = new Intent(MainActivity.this,SetActivity.class);
+                Intent intent = new Intent(MainActivity.this, SetActivity.class);
                 startActivity(intent);
                 break;
             default:
