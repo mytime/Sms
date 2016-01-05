@@ -3,28 +3,31 @@ package cn.uhei.sms;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 拦截号码表 添加拦截号码
+ */
 public class ListPhone extends ListActivity {
 
     //列表
     private List<ContentBean> contents = new ArrayList<ContentBean>();
-    private ContentAdapter adapter;
+    private AdapterPhone adapter;
 
-    private AdapterView.OnItemLongClickListener listViewItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+    /**
+     * 长按删除方法
+     */
+    private AdapterView.OnItemLongClickListener listViewItemLongClickListener
+            = new AdapterView.OnItemLongClickListener() {
         @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                       final int position, long id) {
             new AlertDialog
                     .Builder(ListPhone.this)
                     .setTitle("提醒")
@@ -53,11 +56,11 @@ public class ListPhone extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_list);
 
-        adapter = new ContentAdapter(this, contents);
+        adapter = new AdapterPhone(this, contents);
 
         setListAdapter(adapter);
 
-        //刷新
+        //显示数据 刷新
         setContentsData();
 
         //长按删除
@@ -65,9 +68,12 @@ public class ListPhone extends ListActivity {
     }
 
 
-    //添加
+    /**
+     * 添加拦截号码
+     * @param v
+     */
     public void btnAddPhone(View v) {
-        v = View.inflate(this, R.layout.dialog_add_phone, null);
+        v = View.inflate(this, R.layout.dialog_add_content, null);
         final EditText etPhone = (EditText) v.findViewById(R.id.etPhone);
 
         new AlertDialog.Builder(this)
@@ -77,20 +83,21 @@ public class ListPhone extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ContentBean content = new ContentBean();
-                        content.setNumber(etPhone.getText() + "");
-
-                        ContentManager.addPhone(ListPhone.this, content);
-                        //刷新
-                        setContentsData();
+                        if (etPhone.getText().toString().length() != 0) {
+                            content.setNumber(etPhone.getText()+"");
+                            ContentManager.addPhone(ListPhone.this, content);
+                            //刷新
+                            setContentsData();
+                        }
                     }
                 })
                 .setNegativeButton("取消", null)
                 .show();
-
     }
 
-
-    //刷新
+    /**
+     * 刷新号码表
+     */
     private void setContentsData() {
         List<ContentBean> contentData = ContentManager.getContent(this);
         contents.clear();

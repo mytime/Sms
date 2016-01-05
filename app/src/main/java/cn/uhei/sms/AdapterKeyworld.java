@@ -10,14 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/1/3.
+ * 关键词 适配器
  */
-public class KeyworldAdapter extends BaseAdapter {
+public class AdapterKeyworld extends BaseAdapter {
     private Context context;
     private List<ContentBean> contents;
 
     //构造方法
-    public KeyworldAdapter(Context context, List<ContentBean> contents) {
+    public AdapterKeyworld(Context context, List<ContentBean> contents) {
         this.context = context;
         this.contents = contents;
     }
@@ -33,21 +33,20 @@ public class KeyworldAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context,R.layout.phone_item_list,null);
-            holder.tvPhone = (TextView) convertView.findViewById(R.id.tvPhone);
+            holder.tvKeyworld = (TextView) convertView.findViewById(R.id.tvPhone);
             convertView.setTag(holder);
         }
         else{
             holder = (ViewHolder) convertView.getTag();
         }
         ContentBean mContent = getItem(position);
-        //获取号码
-        holder.tvPhone.setText(mContent.getKeyworld());
+        //获取 关键词
+        holder.tvKeyworld.setText(mContent.getKeyworld());
         return convertView;
     }
 
-
     static class ViewHolder{
-        TextView tvPhone;
+        TextView tvKeyworld;
     }
 
     @Override
@@ -59,6 +58,4 @@ public class KeyworldAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
-
 }

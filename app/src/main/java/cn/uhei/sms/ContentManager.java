@@ -9,21 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/1/3.
+ * 控制器
+ * 号码 关键词 处理方法
  */
 public class ContentManager {
 
     private static Cursor c;
     private static SQLiteDatabase dbRead, dbWrite;
-    private static SmsDb db;
+    private static SMSDatabase db;
     private static ContentBean contentBean;
 
-    //查询关键词
+    /**
+     * 关键词 查询
+     */
+
     public static List<ContentBean> getKeyworld(Context context) {
         List<ContentBean> contacts = new ArrayList<ContentBean>();
 
         //定义数据库对象并实例化
-        db = new SmsDb(context);
+        db = new SMSDatabase(context);
         //获取一个可读数据库
         dbRead = db.getReadableDatabase();
 
@@ -41,9 +45,12 @@ public class ContentManager {
         return contacts;
     }
 
-    //添加关键词
+    /**
+     * 关键词 添加
+     */
+
     public static void addKeyworld(Context context, ContentBean content) {
-        db = new SmsDb(context);
+        db = new SMSDatabase(context);
         dbWrite = db.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -52,13 +59,25 @@ public class ContentManager {
         dbWrite.close();
     }
 
+    /**
+     * 关键词 删除
+     */
 
-    //查询号码
+    public static void deleteKeyworld(Context context, String i) {
+        db = new SMSDatabase(context);
+        dbWrite = db.getWritableDatabase();
+        dbWrite.delete("keyworld", "keyworld=?", new String[]{i});
+    }
+
+
+    /**
+     * 号码 查询
+     */
     public static List<ContentBean> getContent(Context context) {
         List<ContentBean> contacts = new ArrayList<ContentBean>();
 
         //定义数据库对象并实例化
-        db = new SmsDb(context);
+        db = new SMSDatabase(context);
         //获取一个可读数据库
         dbRead = db.getReadableDatabase();
 
@@ -76,9 +95,12 @@ public class ContentManager {
         return contacts;
     }
 
-    //添加号码
+    /**
+     * 号码 添加
+     */
+
     public static void addPhone(Context context, ContentBean content) {
-        db = new SmsDb(context);
+        db = new SMSDatabase(context);
         dbWrite = db.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("phone", content.getNumber());
@@ -86,11 +108,70 @@ public class ContentManager {
         dbWrite.close();
     }
 
-    //删除
+    /**
+     * 号码 删除
+     */
+
     public static void deletePhone(Context context, String i) {
-        db = new SmsDb(context);
+        db = new SMSDatabase(context);
         dbWrite = db.getWritableDatabase();
         dbWrite.delete("phone", "phone=?", new String[]{i});
+
     }
+
+    /**
+     * 内容 查询
+     */
+    public static List<ContentBean> getContentAll(Context context) {
+
+        List<ContentBean> contacts = new ArrayList<ContentBean>();
+
+        //定义数据库对象并实例化
+        db = new SMSDatabase(context);
+        //获取一个可读数据库
+        dbRead = db.getReadableDatabase();
+
+        //查询mcontent表
+        c = null;
+        c = dbRead.query("mcontent", null, null, null, null, null, null, null);
+        contentBean = null;
+        while (c.moveToNext()) {
+            String phone = c.getString(c.getColumnIndex("phone"));
+            String content = c.getString(c.getColumnIndex("content"));
+            String date = c.getString(c.getColumnIndex("date"));
+
+            contentBean = new ContentBean();
+            contentBean.setContent(content);
+            contentBean.setDate(date);
+            contentBean.setNumber(phone);
+            contacts.add(contentBean);
+        }
+        return contacts;
+    }
+
+    /**
+     * 内容 插入
+     */
+    public static void addContent(Context context, ContentBean content) {
+        db = new SMSDatabase(context);
+        dbWrite = db.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("phone", content.getNumber());
+        values.put("content", content.getContent());
+        values.put("date", content.getDate());
+        dbWrite.insert("mcontent", null, values);
+        dbWrite.close();
+    }
+
+    /**
+     * 内容删除
+     */
+    public static void deleteContentPhone(Context context, String i) {
+        db = new SMSDatabase(context);
+        dbWrite = db.getWritableDatabase();
+        dbWrite.delete("mcontent", "phone = ?", new String[]{i});
+    }
+
 
 }

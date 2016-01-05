@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Administrator on 2015/12/31.
  */
-public class SmsDb extends SQLiteOpenHelper {
-    public SmsDb(Context context) {
+public class SMSDatabase extends SQLiteOpenHelper {
+    public SMSDatabase(Context context) {
 //        定义数据库
         super(context, "msms.db", null, 1);
     }
@@ -21,6 +21,11 @@ public class SmsDb extends SQLiteOpenHelper {
         //创建拦截关键字表
         db.execSQL("create table keyworld(_id integer primary key autoincrement," +
                 "keyworld text default none)");
+        //创建内容表
+        db.execSQL("create table mcontent(_id integer primary key autoincrement," +
+                "phone text default none," +
+                "content text default none," +
+                "date text default none)");
 
 
     }

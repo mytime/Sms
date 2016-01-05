@@ -9,17 +9,18 @@ import android.test.AndroidTestCase;
  */
 public class Test extends AndroidTestCase {
     private ContentValues values;
-    private SmsDb db;
+    private SMSDatabase db;
     private SQLiteDatabase dbWrite,dbRead;
     public void test(){
 
-        db = new SmsDb(getContext());
+        db = new SMSDatabase(getContext());
         dbWrite = db.getWritableDatabase();
 
         values = new ContentValues();
-        values.put("keyworld", "2000");
-        dbWrite.insert("keyworld",null,values);
-
+        values.put("phone", "10086");
+        values.put("content","abc");
+        values.put("date","2016.2.2");
+        dbWrite.insert("mcontent",null,values);
         dbWrite.close();
 
     }

@@ -26,7 +26,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SetAty" />
+        <activity android:name=".SetActivity" />
         <activity android:name=".ListPhone" />
         <activity android:name=".ListKeyworld"></activity>
     </application>

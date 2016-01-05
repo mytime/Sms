@@ -10,14 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/1/3.
+ * 号码 适配器
  */
-public class ContentAdapter extends BaseAdapter {
+public class AdapterPhone extends BaseAdapter {
     private Context context;
     private List<ContentBean> contents;
 
     //构造方法
-    public ContentAdapter(Context context, List<ContentBean> contents) {
+    public AdapterPhone(Context context, List<ContentBean> contents) {
         this.context = context;
         this.contents = contents;
     }
@@ -39,6 +39,7 @@ public class ContentAdapter extends BaseAdapter {
         else{
             holder = (ViewHolder) convertView.getTag();
         }
+
         ContentBean mContent = getItem(position);
         //获取号码
         holder.tvPhone.setText(mContent.getNumber());
